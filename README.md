@@ -102,10 +102,4 @@ npm start
 * Availability is added via `/api/availability`.
 * Bookings are handled via `/api/booking`.
 
-Let me know if you'd like to connect authentication, integrate email confirmations, or host it publicly.
-
 ---
-
-**Submitted by:** \[Your Name]
-**Date:** \[Submission Date]
-**Repository:** \[GitHub Link]
