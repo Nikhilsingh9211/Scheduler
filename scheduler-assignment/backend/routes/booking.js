@@ -35,11 +35,14 @@ router.get('/:url', async (req, res) => {
 router.post('/', async (req, res) => {
     const { url, user_id, date, start_time, end_time } = req.body;
     try {
+        console.log("Inside the request");
         const [[map]] = await pool.query('SELECT * FROM map_booking_users WHERE url = ?', [url]);
         if (!map) return res.status(404).json({ error: 'Invalid booking link' });
 
-        const startDateTime = `${date} ${start_time}`;
-        const endDateTime = `${date} ${end_time}`;
+        const cleanStartTime = start_time.split('.')[0];
+        const startDateTime = `${date} ${cleanStartTime}`;
+        const cleanEndTime = end_time.split('.')[0];
+        const endDateTime = `${date} ${cleanEndTime}`;
 
         // Check conflicts
         const [conflicts] = await pool.query(
@@ -53,7 +56,7 @@ router.post('/', async (req, res) => {
 
         const [booking] = await pool.query(
             'INSERT INTO booking (room_id, start_time, end_time) VALUES (?, ?, ?)',
-            [map.booking_id, startDateTime, endDateTime]
+            [map.room_id, startDateTime, endDateTime]
         );
 
         await pool.query(
